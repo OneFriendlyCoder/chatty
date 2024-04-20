@@ -25,7 +25,7 @@ const Layout:React.FC<LayoutProps> = async ({children}) => {
         {
             id: 1,
             name: 'Add friend',
-            href: '/dsahboard/add'
+            href: '/dashboard/add'
         }
     ]
     return (  
