@@ -1,12 +1,29 @@
 'use client'
 
 import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 interface IncomingFriendRequestProps{
     incomingFriendRequests: IncomingFriendRequests[],
     sessionId: string,
 }
 const FriendRequests:React.FC<IncomingFriendRequestProps> = ({incomingFriendRequests, sessionId}) => {
     const [friendRequests, setFriendRequests] = useState<IncomingFriendRequests[]>(incomingFriendRequests)
+    const router = useRouter();
+    
+    const acceptFriend = async (senderId: string) => {
+        await axios.post('/api/requests/accept', {id: senderId})
+        setFriendRequests(prev => prev.filter(request => request.senderId !== senderId))
+        router.refresh();
+    }
+
+    const denyFriend = async (senderId: string) => {
+        await axios.post('/api/requests/deny', {id: senderId})
+        setFriendRequests(prev => prev.filter(request => request.senderId !== senderId))
+        router.refresh();
+    }
+
+
     return (  
         <>
         {
